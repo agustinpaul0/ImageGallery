@@ -25,7 +25,6 @@ function initApp() {
 }
 
 function loadImagesFromLocalStorage(imageGrid) {
-  // Limpiar el grid antes de cargar las imágenes desde el localStorage
   imageGrid.innerHTML = '';
 
   savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
@@ -63,7 +62,6 @@ function initialiseGalleryScreen() {
   imgElement.alt = "Selected image";
   imgElement.classList.add("hidden");
 
-  console.log(imgElement.classList.contains("hidden"));
   imageViewerDiv.insertBefore(imgElement, imageViewerDiv.firstChild);
   imageViewerDiv.insertBefore(message, imageViewerDiv.firstChild);
 }
@@ -202,12 +200,13 @@ function showNextImage() {
     const nextIndex = (currentIndex + 1) % savedImages.length;
     const nextImage = savedImages[nextIndex];
     currentImageIMG.src = nextImage.src;
-    currentlyDisplayedImage = nextImage;
+    currentlyDisplayedImage = document.getElementById(nextImage.id);;
   }
 }
 
 function showPrevImage() {
   if (currentlyDisplayedImage != null) {
+    console.log(currentlyDisplayedImage);
     savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
     const currentImageIMG = document.getElementById("current-image");
     const currentIndex = savedImages.findIndex(imageAttr => imageAttr.id === currentlyDisplayedImage.id);
@@ -216,7 +215,7 @@ function showPrevImage() {
     const prevIndex = (currentIndex - 1 + savedImages.length) % savedImages.length;
     const prevImage = savedImages[prevIndex];
     currentImageIMG.src = prevImage.src;
-    currentlyDisplayedImage = prevImage;
+    currentlyDisplayedImage = document.getElementById(prevImage.id);;
   }
 }
 
@@ -233,6 +232,7 @@ function removeImage() {
 }
 
 function deleteImageFromLocalStorage() {
+  savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
   savedImages = savedImages.filter(imageAttr => imageAttr.id !== currentlyDisplayedImage.id);
   localStorage.setItem('uploadedImages', JSON.stringify(savedImages));
 }
