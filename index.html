@@ -1,50 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Gallery</title>
-    <link rel="icon" href="images/icon/icono.png" type="image/x-icon" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <!-- Home Screen -->
-    <div id="home-screen">
-      <div class="container">
-        <h1>¡Welcome!</h1>
-        <button id="open-gallery-btn">Open Gallery</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Gallery</title>
+  <link rel="icon" href="images/icon/icono.png" type="image/x-icon" />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <!-- Home Screen -->
+  <div id="home-screen">
+    <div class="container">
+      <h1>¡Welcome!</h1>
+      <button id="open-gallery-btn">Open Gallery</button>
+      <label for="file-input" class="btn-upload">Upload File</label>
+      <input type="file" id="file-input" accept="image/*" multiple class="hidden" />
+    </div>
+  </div>
 
-        <!-- Custom button for uploading images -->
-        <label for="file-input" class="btn-upload">Upload File</label>
-        <input
-          type="file"
-          id="file-input"
-          accept="image/*"
-          multiple
-          class="hidden"
-        />
-      </div>
+  <!-- Gallery Screen -->
+  <div id="gallery-screen" class="hidden">
+    <div id="left-panel">
+      <div id="image-grid" aria-label="Image gallery"></div>
     </div>
 
-    <!-- Gallery Screen -->
-    <div id="gallery-screen" class="hidden">
-      <div id="left-panel">
-        <div id="image-grid" aria-label="Image gallery"></div>
-      </div>
-
-      <div id="right-panel">
-        <div id="image-viewer" aria-label="Image viewer">
-          
-          <div id="image-viewer-buttons">
-            <button id="prev-btn" aria-label="Previous image"><</button>
-            <button id="next-btn" aria-label="Next image">></button>
-            <button id="back-to-home-btn">Back to Home</button>
-            <button id="delete-image-btn" disabled>Delete Image</button>
-          </div>
+    <div id="right-panel">
+      <div id="image-viewer" aria-label="Image viewer">
+        <h2 id="no-images-selected-msg" class="no-img-selected-msg">No images selected</h2>
+        <img id="current-image" class="hidden" alt="Selected image" src="" />
+        <div id="image-viewer-buttons">
+          <button id="prev-btn" aria-label="Previous image"><</button>
+          <button id="next-btn" aria-label="Next image">></button>
+          <button id="back-to-home-btn">Back to Home</button>
+          <button id="delete-image-btn" disabled>Delete Image</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="script.js" defer></script>
-  </body>
+  <script type="module" src="./js/main.js"></script>
+</body>
 </html>
