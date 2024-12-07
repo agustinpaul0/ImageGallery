@@ -1,8 +1,7 @@
 export function getSavedImagesFromLocalStorage() {
-  let savedImages = localStorage.getItem("uploadedImages");
-  if (savedImages == null) {
-    return [];
-  } else {
-    return JSON.parse(savedImages);
+  let savedImages = JSON.parse(localStorage.getItem("uploadedImages"));
+  if (!Array.isArray(savedImages)) {
+    savedImages = [];  // Inicializa como arreglo vacío si no lo es
   }
+  return savedImages;
 }
