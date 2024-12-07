@@ -1,6 +1,6 @@
-import { resizeImage } from "./utils.js";
-import { appendImageToGrid, saveImageToLocalStorage } from "./storage.js";
-import { handleImageClick } from "./viewer.js";
+import { resizeImage } from "../utilityFunctions.js";
+import { appendImageToGrid, saveImageToLocalStorage } from "../storage/storageManager.js";
+import { handleImageClick } from "../image/imageViewer.js";
 
 let imageId = 1;
 

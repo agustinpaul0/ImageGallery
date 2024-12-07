@@ -1,4 +1,4 @@
-import { updateImageViewer, deleteImageFromLocalStorage } from "./storage.js";
+import { updateImageViewer, deleteImageFromLocalStorage } from "../storage/storageManager.js";
 
 export let currentlyDisplayedImage = null;
 

@@ -1,7 +1,8 @@
-import { handleImageClick, currentlyDisplayedImage } from "./viewer.js";
+import { handleImageClick, currentlyDisplayedImage } from "../image/imageViewer.js";
 
-export function loadImagesFromLocalStorage(imageGrid) {
+export function loadImagesFromLocalStorage() {
   const savedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
+  const imageGrid = document.getElementById("image-grid");
   imageGrid.innerHTML = "";
 
   savedImages.forEach((imgAttr) => {
@@ -18,7 +19,8 @@ export function loadImagesFromLocalStorage(imageGrid) {
 export function saveImageToLocalStorage(imageAttributes) {
   let operacionExitosa = true;
   try {
-    savedImages = JSON.parse(localStorage.getItem("uploadedImages")) || [];
+    let savedImages =
+      JSON.parse(localStorage.getItem("uploadedImages")) || [];
     savedImages.push(imageAttributes);
     localStorage.setItem("uploadedImages", JSON.stringify(savedImages));
   } catch (e) {

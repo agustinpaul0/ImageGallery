@@ -1,3 +1,3 @@
-import { initApp } from './modules/init.js';
+import { initApp } from "./appInitialiser.js";
 
 document.addEventListener("DOMContentLoaded", () => initApp());
