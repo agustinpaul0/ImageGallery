@@ -65,6 +65,10 @@ export function appendImageToGrid(imageGrid, imgElement) {
   imageGrid.appendChild(imgElement);
 }
 
+export function appendImageToFragmentDocument(fragmentDocument, imgElement) {
+  fragmentDocument.appendChild(imgElement);
+}
+
 export function getImageElementFromLocalStorage(imgAttr) {
   const imgElement = document.createElement("img");
   imgElement.src = imgAttr.src;

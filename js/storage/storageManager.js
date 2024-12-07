@@ -2,7 +2,7 @@ import { handleLocalStorageError } from "../exceptionHandlers/handleLocalStorage
 import { getSavedImagesFromLocalStorage } from "../utils/localStorageUtilities.js";
 import { 
   resetGrid,
-  appendImageToGrid,
+  appendImageToFragmentDocument,
   getImageElementFromLocalStorage
  } from "../utils/domUtilities.js";
 
@@ -14,10 +14,12 @@ export function loadImagesFromLocalStorage() {
 
 function loadImages(grid) {
   const savedImages = getSavedImagesFromLocalStorage();
+  const fragmentDocument = document.createDocumentFragment();
   savedImages.forEach((imgAttr) => {
     const imgElement = getImageElementFromLocalStorage(imgAttr);
-    appendImageToGrid(grid, imgElement);
+    appendImageToFragmentDocument(fragmentDocument, imgElement);
   });
+  grid.appendChild(fragmentDocument);
 }
 
 export function saveImageToLocalStorage(imageAttributes) {
