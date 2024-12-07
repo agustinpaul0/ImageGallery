@@ -14,6 +14,7 @@ export function loadImagesFromLocalStorage() {
 
 function loadImages(grid) {
   const savedImages = getSavedImagesFromLocalStorage();
+  console.log(Array.isArray(savedImages));
   savedImages.forEach((imgAttr) => {
     const imgElement = getImageElementFromLocalStorage(imgAttr);
     appendImageToGrid(grid, imgElement);
