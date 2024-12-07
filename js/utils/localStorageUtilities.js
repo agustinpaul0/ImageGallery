@@ -1,3 +1,4 @@
 export function getSavedImagesFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("uploadedImages")) || [];
+  const savedImages = JSON.parse(localStorage.getItem("uploadedImages"));
+  return Array.isArray(savedImages) ? savedImages : [];
 }

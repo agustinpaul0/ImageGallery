@@ -7,14 +7,13 @@ import {
  } from "../utils/domUtilities.js";
 
 export function loadImagesFromLocalStorage() {
-  const savedImages = getSavedImagesFromLocalStorage();
   const imageGrid = document.getElementById("image-grid");
-
   resetGrid(imageGrid);
-  loadImages(savedImages, imageGrid);
+  loadImages(imageGrid);
 }
 
-function loadImages(savedImages, grid) {
+function loadImages(grid) {
+  const savedImages = getSavedImagesFromLocalStorage();
   savedImages.forEach((imgAttr) => {
     const imgElement = getImageElementFromLocalStorage(imgAttr);
     appendImageToGrid(grid, imgElement);
@@ -23,7 +22,8 @@ function loadImages(savedImages, grid) {
 
 export function saveImageToLocalStorage(imageAttributes) {
   try {
-    const savedImages = getSavedImagesFromLocalStorage().push(imageAttributes);
+    const savedImages = getSavedImagesFromLocalStorage(); 
+    savedImages.push(imageAttributes); 
     localStorage.setItem("uploadedImages", JSON.stringify(savedImages));
     return true;
   } catch (error) {
