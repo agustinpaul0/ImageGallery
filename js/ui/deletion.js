@@ -1,14 +1,11 @@
-import {
-  updateImageViewer,
-  deleteImageFromLocalStorage,
-} from "../storage/storageManager.js";
+import { deleteImageFromLocalStorage } from "../storage/storageManager.js";
 import { 
     clearImagePanel, 
     clearGridPanel,
     currentlyDisplayedImage,
+    updateImageViewer,
     disableDeleteButton
-} from "../utils/domUtils.js";
-
+} from "../utils/domUtilities.js";
 
 export function removeImage() {
   if (currentlyDisplayedImage != null) {

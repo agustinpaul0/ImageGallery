@@ -1,13 +1,13 @@
+import { handleFileUpload } from "../upload/fileUpload.js";
+import { removeImage } from "./deletion.js";
 import { 
   showGalleryScreen,
   showHomeScreen 
 } from "../screens/screenManager.js";
-import { handleFileUpload } from "../upload/fileUpload.js";
 import {
   showNextImage,
   showPrevImage
 } from "./navigation.js";
-import { removeImage } from "./deletion.js";
 
 export function setupEventHandlers() {
   document

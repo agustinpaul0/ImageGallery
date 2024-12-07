@@ -1,3 +1,3 @@
-export function getSavedImages() {
+export function getSavedImagesFromLocalStorage() {
   return JSON.parse(localStorage.getItem("uploadedImages")) || [];
 }

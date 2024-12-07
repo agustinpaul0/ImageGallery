@@ -1,10 +1,9 @@
-import { updateImageViewer } from "../storage/storageManager.js";
+import { updateImageViewer } from "../utils/domUtilities.js";
+import { extractAttributes } from "../utils/domUtilities.js";
 import { 
     enableDeleteButton,
     updateCurrentlyDisplayedImage
-} from "../utils/domUtils.js";
-
-import { extractAttributes } from "../upload/fileUpload.js";
+} from "../utils/domUtilities.js";
 
 export function handleImageClick(imgElement) {
   const imgAttributes = extractAttributes(imgElement);

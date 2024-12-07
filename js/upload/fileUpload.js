@@ -1,11 +1,10 @@
 import { resizeImage } from "../utils/utilityFunctions.js";
-import {
+import { saveImageToLocalStorage } from "../storage/storageManager.js";
+import { 
   appendImageToGrid,
-  saveImageToLocalStorage,
-} from "../storage/storageManager.js";
-import { handleImageClick } from "../ui/handleImageClick.js";
-
-let imageIdCounter = 1;
+  createImageElement,
+  extractAttributes
+} from "../utils/domUtilities.js";
 
 export function handleFileUpload(event, imageGrid) {
   const files = event.target.files;
@@ -28,27 +27,6 @@ function handleFile(file, imageGrid) {
       appendImageToGrid(imageGrid, imgElement);
     }
   });
-}
-
-function createImageElement(src) {
-  const imgElement = document.createElement("img");
-  imgElement.src = src;
-  imgElement.alt = `Uploaded image ${imageIdCounter}`;
-  imgElement.id = `uploaded-image-${imageIdCounter}`;
-  imgElement.classList.add("uploaded-image");
-  imgElement.addEventListener("click", () => handleImageClick(imgElement));
-
-  imageIdCounter++;
-  return imgElement;
-}
-
-export function extractAttributes(imgElement) {
-  return {
-    src: imgElement.src,
-    alt: imgElement.alt,
-    id: imgElement.id,
-    classList: Array.from(imgElement.classList),
-  };
 }
 
 function resetFileInput(event) {

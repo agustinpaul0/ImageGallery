@@ -1,29 +1,29 @@
-import { getSavedImages } from "../utils/localStorageUtilities.js";
+import { getSavedImagesFromLocalStorage } from "../utils/localStorageUtilities.js";
 import {
   currentlyDisplayedImage,
   updateCurrentlyDisplayedImage
-} from "../utils/domUtils.js";
+} from "../utils/domUtilities.js";
 
 export function showNextImage() {
   if (currentlyDisplayedImage != null) {
-    const savedImages = getSavedImages();
+    const savedImages = getSavedImagesFromLocalStorage();
     const currentIndex = savedImages.findIndex(
         (imageAttr) => imageAttr.id === currentlyDisplayedImage.id
     );
-
     const nextIndex = getNextIndex(currentIndex, savedImages.length);
+    
     displayImageByIndex(savedImages, nextIndex);
   }
 }
 
 export function showPrevImage() {
   if (currentlyDisplayedImage != null) {
-    const savedImages = getSavedImages();
+    const savedImages = getSavedImagesFromLocalStorage();
     const currentIndex = savedImages.findIndex(
         (imageAttr) => imageAttr.id === currentlyDisplayedImage.id
     );
-
     const prevIndex = getPrevIndex(currentIndex, savedImages.length);
+    
     displayImageByIndex(savedImages, prevIndex);
   }
 }
