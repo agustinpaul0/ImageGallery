@@ -8,6 +8,7 @@ import {
 
 export function loadImagesFromLocalStorage() {
   const imageGrid = document.getElementById("image-grid");
+  localStorage.clear();
   resetGrid(imageGrid);
   loadImages(imageGrid);
 }
