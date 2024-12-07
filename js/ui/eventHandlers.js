@@ -1,10 +1,13 @@
-import { showGalleryScreen, showHomeScreen } from "../screens/screenManager.js";
+import { 
+  showGalleryScreen,
+  showHomeScreen 
+} from "../screens/screenManager.js";
 import { handleFileUpload } from "../upload/fileUpload.js";
 import {
   showNextImage,
-  showPrevImage,
-  removeImage,
-} from "../image/imageViewer.js";
+  showPrevImage
+} from "./navigation.js";
+import { removeImage } from "./deletion.js";
 
 export function setupEventHandlers() {
   document
@@ -15,8 +18,8 @@ export function setupEventHandlers() {
     .addEventListener("click", showHomeScreen);
   document
     .getElementById("file-input")
-    .addEventListener("change", (event) =>
-      handleFileUpload(event)
+    .addEventListener("change", (event) => 
+      handleFileUpload(event, document.getElementById("image-grid"))
     );
   document
     .getElementById("next-btn")

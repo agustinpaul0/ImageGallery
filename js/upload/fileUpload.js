@@ -1,50 +1,56 @@
-import { resizeImage } from "../utilityFunctions.js";
-import { appendImageToGrid, saveImageToLocalStorage } from "../storage/storageManager.js";
-import { handleImageClick } from "../image/imageViewer.js";
+import { resizeImage } from "../utils/utilityFunctions.js";
+import {
+  appendImageToGrid,
+  saveImageToLocalStorage,
+} from "../storage/storageManager.js";
+import { handleImageClick } from "../ui/handleImageClick.js";
 
-let imageId = 1;
+let imageIdCounter = 1;
 
 export function handleFileUpload(event, imageGrid) {
   const files = event.target.files;
 
-  for (const file of files) {
-    createImageElement(imageGrid, file);
-  }
+  processFiles(Array.from(files), imageGrid);
 
-  // Reset input to allow repeated file uploads (after processing all files)
-  event.target.value = "";
+  resetFileInput(event);
 }
 
-function createImageElement(imageGrid, file) {
-  const imgElement = createImage(imageGrid, file);
+function processFiles(files, imageGrid) {
+  files.forEach((file) => handleFile(file, imageGrid));
 }
 
-function createImage(imageGrid, file) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    resizeImage(file, 800, 600, 0.7, (resizedDataUrl) => {
-      const imgElement = document.createElement("img");
-      imgElement.src = resizedDataUrl;
-      imgElement.alt = "Uploaded image " + imageId;
-      imgElement.id = "uploaded-image-" + imageId;
-      imgElement.classList.add("uploaded-image");
-      imgElement.addEventListener("click", () => handleImageClick(imgElement));
-      imageId++;
+function handleFile(file, imageGrid) {
+  resizeImage(file, 800, 600, 0.7, (resizedDataUrl) => {
+    const imgElement = createImageElement(resizedDataUrl);
+    const imgAttributes = extractAttributes(imgElement);
 
-      const imgAttributes = extractAttributes(imgElement);
-      if (saveImageToLocalStorage(imgAttributes)) {
-        appendImageToGrid(imageGrid, imgElement);
-      }
-    });
-  };
-  reader.readAsDataURL(file);
+    if (saveImageToLocalStorage(imgAttributes)) {
+      appendImageToGrid(imageGrid, imgElement);
+    }
+  });
 }
 
-function extractAttributes(imgElement) {
+function createImageElement(src) {
+  const imgElement = document.createElement("img");
+  imgElement.src = src;
+  imgElement.alt = `Uploaded image ${imageIdCounter}`;
+  imgElement.id = `uploaded-image-${imageIdCounter}`;
+  imgElement.classList.add("uploaded-image");
+  imgElement.addEventListener("click", () => handleImageClick(imgElement));
+
+  imageIdCounter++;
+  return imgElement;
+}
+
+export function extractAttributes(imgElement) {
   return {
     src: imgElement.src,
     alt: imgElement.alt,
     id: imgElement.id,
     classList: Array.from(imgElement.classList),
   };
+}
+
+function resetFileInput(event) {
+  event.target.value = "";
 }
