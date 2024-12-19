@@ -14,7 +14,7 @@ This application is an interactive photo gallery built using HTML, CSS, and Java
 8. **Main Menu Interface:** A menu provides easy access to either upload new images or view the gallery.
 
 ## How to Use
-1. **Open the application:** Click the link provided on GitHub Pages. The application must be run on a server to function correctly.
+1. **Open the application:** Click the link provided on GitHub Pages. The application must be run on a server to function correctly. **It cannot be executed directly from a local file (index.html) due to DOM restrictions.**
 2. **Upload images:** Click the "Upload File" button and select images from the folder `testImages` available in the GitHub Project or from your own device.
 3. **Explore the gallery:** Click "Open Gallery" to view uploaded images.
 4. **Navigate:** Use the "Previous" and "Next" buttons to move through the images.
@@ -37,6 +37,9 @@ This application is an interactive photo gallery built using HTML, CSS, and Java
 2. **Compatibility:** Requires a modern browser supporting HTML5, CSS3, and ES6 JavaScript.
 3. **Security:** Since images and descriptions are stored locally, they are not protected against access if the device is shared.
 4. **Errors:** If too many images are uploaded, the app tends to fail at correctly deleting the images and consistently maintaining the information uploaded.
+
+## Contribution
+This project is open for contributions. Feel free to submit **Pull Requests** to improve the functionality or fix known bugs, such as the issues with Lakitu or the poor contrast between the Buzzy Beetles and the last background.
 
 ## Author
 Developed by Paul Agustín.
