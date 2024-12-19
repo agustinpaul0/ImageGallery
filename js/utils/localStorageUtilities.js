@@ -1,13 +1,11 @@
-import {
-  handleImageClick 
-} from '../ui/handleImageClick.js';
+import { handleImageClick } from '../ui/handleImageClick.js';
 
-export function getSavedImagesFromLocalStorage() {
-  let savedImages = JSON.parse(localStorage.getItem("uploadedImages"));
-  if (!Array.isArray(savedImages)) {
-    savedImages = [];  
+export function getSavedImageAttributesFromLocalStorage() {
+  let savedImageAttributes = JSON.parse(localStorage.getItem("uploadedImages"));
+  if (!Array.isArray(savedImageAttributes)) {
+    savedImageAttributes = [];  
   }
-  return savedImages;
+  return savedImageAttributes;
 }
 
 export function getSavedImageDescriptionParagraphsFromLocalStorage() {
@@ -18,33 +16,34 @@ export function getSavedImageDescriptionParagraphsFromLocalStorage() {
   return savedImageDescriptionParagraphs;
 }
 
-export function getImageElementFromLocalStorage(imgAttr) {
-  const imgElement = document.createElement("img");
-  imgElement.src = imgAttr.src;
-  imgElement.alt = imgAttr.alt;
-  imgElement.id = imgAttr.id;
-  imgElement.className = imgAttr.classList.join(" ");
-  imgElement.addEventListener("click", () => handleImageClick(imgElement));
-  return imgElement;
+export function createImageElementFromImageAttributes(imageAttributes) {
+  const imageElement = document.createElement("img");
+  imageElement.src = imageAttributes.src;
+  imageElement.alt = imageAttributes.alt;
+  imageElement.id = imageAttributes.id;
+  imageElement.className = imageAttributes.classList.join(" ");
+  imageElement.addEventListener("click", () => handleImageClick(imageElement));
+  return imageElement;
 }
 
-export function getImageDescriptionParagraphFromLocalStorage(imgId) {
+export function getImageDescriptionParagraphFromLocalStorage(imageId) {
 
-  const array = imgId.split("-");
-  const id = array[array.length - 1];
+  const imageIdArray = imageId.split("-");
+  const imageIdNumber = imageIdArray[imageIdArray.length - 1];
 
   let savedImageDescriptionParagraphs = JSON.parse(localStorage.getItem("imageDescriptionParagraphs"));
-  const imgDescriptionParagraph = savedImageDescriptionParagraphs.find(imgDescriptionParagraphAttr => {
-    let currentIdArray = imgDescriptionParagraphAttr.id.split("-");
-    let currentDescriptionParagraphId = currentIdArray[currentIdArray.length - 1]; 
-    return currentDescriptionParagraphId == id;
+  const matchingImageDescriptionParagraph  = savedImageDescriptionParagraphs.find(
+    (imageDescriptionParagraphAttributes) => {
+    const currentIdArray = imageDescriptionParagraphAttributes.id.split("-");
+    const currentDescriptionParagraphId = currentIdArray[currentIdArray.length - 1]; 
+    return currentDescriptionParagraphId == imageIdNumber;
   }
   );
 
   const textarea = document.createElement("textarea");
 
-  textarea.id = imgDescriptionParagraph.id;
-  textarea.value = imgDescriptionParagraph.value;
+  textarea.id = matchingImageDescriptionParagraph.id;
+  textarea.value = matchingImageDescriptionParagraph.value;
   textarea.placeholder = "Add a description of your image";
   textarea.maxLength = 300;
 

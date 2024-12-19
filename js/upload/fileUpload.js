@@ -1,22 +1,23 @@
 import { resizeImage } from '../utils/utilityFunctions.js';
 import { 
-  saveImageToLocalStorage,
+  saveImageAttributesToLocalStorage,
   saveImageDescriptionParagraphToLocalStorage
 } from '../storage/storageManager.js';
 import { 
   createDescriptionParagraph,
   createImageElement,
   extractAttributes,
-  extractImgDescriptionParagraphAttributes,
+  extractImageDescriptionParagraphAttributes,
   hideElement,
-  showElement
+  showElement,
+  getDomElement
 } from '../utils/domUtilities.js';
 
 export function handleFileUpload(event) {
-  const spinner = document.getElementById("loading-spinner");
-  const container = document.getElementById("container");
-  
-  container.classList.add("imagesOnLoad");
+  const spinner = getDomElement("loading-spinner");
+  const spinnerContainer = getDomElement("container");
+  spinnerContainer.classList.add("imagesOnLoad");
+
   showElement(spinner); 
 
   const files = event.target.files;
@@ -24,7 +25,7 @@ export function handleFileUpload(event) {
   let processedFiles = 0;  
 
   if (totalFiles === 0) {
-    container.classList.remove("imagesOnLoad");
+    spinnerContainer.classList.remove("imagesOnLoad");
     hideElement(spinner);
     return;
   }
@@ -33,7 +34,7 @@ export function handleFileUpload(event) {
     processedFiles++;
 
     if (processedFiles === totalFiles) {
-      container.classList.remove("imagesOnLoad");
+      spinnerContainer.classList.remove("imagesOnLoad");
       hideElement(spinner);
     }
   });
@@ -43,21 +44,21 @@ export function handleFileUpload(event) {
 
 //onFileProcessed is a callback function
 function processFiles(files, onFileProcessed) {
-  files.forEach(file => {
+  files.forEach((file) => {
     handleFile(file, onFileProcessed);
   });
 }
 
 //onFileProcessed is a callback function
 function handleFile(file, onFileProcessed) {
-  resizeImage(file, 800, 600, 0.7, resizedDataUrl => {
-    const imgElement = createImageElement(resizedDataUrl);
-    const imgAttributes = extractAttributes(imgElement);
-    const imgDescriptionParagraph = createDescriptionParagraph(imgAttributes);
-    const imgDescriptionParagraphAttributes = extractImgDescriptionParagraphAttributes(imgDescriptionParagraph);
+  resizeImage(file, 800, 600, 0.7, (resizedDataUrl) => {
+    const imageElement = createImageElement(resizedDataUrl);
+    const imageAttributes = extractAttributes(imageElement);
+    const imageDescriptionParagraph = createDescriptionParagraph(imageAttributes);
+    const imageDescriptionParagraphAttributes = extractImageDescriptionParagraphAttributes(imageDescriptionParagraph);
 
-    saveImageToLocalStorage(imgAttributes);
-    saveImageDescriptionParagraphToLocalStorage(imgDescriptionParagraphAttributes);
+    saveImageAttributesToLocalStorage(imageAttributes);
+    saveImageDescriptionParagraphToLocalStorage(imageDescriptionParagraphAttributes);
 
     onFileProcessed();
   });

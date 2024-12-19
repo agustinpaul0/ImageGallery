@@ -20,12 +20,12 @@ export function updateCurrentlyDisplayedDescriptionParagraph(descriptionParagrap
   container.appendChild(descriptionParagraph);
 }
 
-export function clearImagePanel() {
+export function clearImageSrc() {
   const currentImageIMG = getDomElement("current-image");
   currentImageIMG.src = "";
 }
 
-export function clearGridPanel() {
+export function clearImageViewerPanel() {
   if (currentlyDisplayedImage != null) {
     currentlyDisplayedImage.remove();
     currentlyDisplayedImage = null;
@@ -126,7 +126,7 @@ export function extractAttributes(imgElement) {
   };
 }
 
-export function extractImgDescriptionParagraphAttributes(imgDescriptionParagraph) {
+export function extractImageDescriptionParagraphAttributes(imgDescriptionParagraph) {
   return {
     id: imgDescriptionParagraph.id,
     value: imgDescriptionParagraph.value
@@ -142,4 +142,13 @@ export function createDescriptionParagraph(imgAttr) {
   textarea.value = "";
 
   return textarea;
+}
+
+export function deleteCurrentDescriptionParagraphFromDOM() {
+  if (currentlyDisplayedImage != null) {
+    const imageIdArray = currentlyDisplayedImage.id.split('-');
+    const imageIdNumber = imageIdArray[imageIdArray.length - 1];
+    const currentDescriptionParagraph = document.getElementById(`description-image-${imageIdNumber}`);
+    currentDescriptionParagraph.remove();
+  }
 }

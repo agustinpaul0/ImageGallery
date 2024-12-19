@@ -6,18 +6,18 @@ export function resizeImage(file, maxWidth, maxHeight, quality, callback) {
 }
 
 function handleImageLoad(imageData, maxWidth, maxHeight, quality, callback) {
-  const img = new Image();
+  const image = new Image();
 
-  img.onload = () => resizeAndExportImage(img, maxWidth, maxHeight, quality, callback);
-  img.src = imageData;
+  image.onload = () => resizeAndExportImage(image, maxWidth, maxHeight, quality, callback);
+  image.src = imageData;
 }
 
-function resizeAndExportImage(img, maxWidth, maxHeight, quality, callback) {
-  const { width, height } = calculateNewDimensions(img.width, img.height, maxWidth, maxHeight);
+function resizeAndExportImage(image, maxWidth, maxHeight, quality, callback) {
+  const { width, height } = calculateNewDimensions(image.width, image.height, maxWidth, maxHeight);
 
   const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(img, 0, 0, width, height);
+  const context = canvas.getContext("2d");
+  context.drawImage(image, 0, 0, width, height);
 
   const resizedImage = canvas.toDataURL("image/jpeg", quality);
   callback(resizedImage);

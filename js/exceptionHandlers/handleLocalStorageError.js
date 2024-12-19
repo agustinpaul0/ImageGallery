@@ -1,7 +1,7 @@
 export function handleLocalStorageError(error) {
   if (error.name === "QuotaExceededError") {
-    alert("No hay suficiente espacio en el almacenamiento local");
+    alert("There is not enough space in local storage");
   } else {
-    console.error("Error al interactuar con el localStorage", error);
+    console.error("Error interacting with localStorage", error);
   }
 }

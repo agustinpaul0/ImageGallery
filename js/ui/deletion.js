@@ -1,11 +1,11 @@
 import { getImageDescriptionParagraphFromLocalStorage } from '../utils/localStorageUtilities.js';
 import { 
-  deleteImageFromLocalStorage,
+  deleteImageAttributesFromLocalStorage,
   deleteImageDescriptionParagraphFromLocalStorage 
 } from '../storage/storageManager.js';
 import { 
-    clearImagePanel, 
-    clearGridPanel,
+    clearImageSrc, 
+    clearImageViewerPanel,
     currentlyDisplayedImage,
     updateImageViewer,
     disableDeleteButton,
@@ -20,11 +20,11 @@ export function removeImage() {
     const currentlyDisplayedImageDescriptionParagraphAttributes = 
       getImageDescriptionParagraphFromLocalStorage(currentlyDisplayedImageAttributes.id);
 
-    deleteImageFromLocalStorage(currentlyDisplayedImageAttributes.id);
+    deleteImageAttributesFromLocalStorage(currentlyDisplayedImageAttributes.id);
     deleteImageDescriptionParagraphFromLocalStorage(currentlyDisplayedImageDescriptionParagraphAttributes);
     clearDescriptionPanel();
-    clearImagePanel();
-    clearGridPanel();
+    clearImageSrc();
+    clearImageViewerPanel();
     disableDeleteButton();
     disableImageNavigationButtons();
     updateImageViewer();

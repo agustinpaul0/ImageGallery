@@ -1,4 +1,5 @@
 import { loadElementsFromLocalStorage } from '../storage/storageManager.js';
+import { getDomElement } from '../utils/domUtilities.js';
 
 export function showGalleryScreen() {
   loadElementsFromLocalStorage();
@@ -12,9 +13,9 @@ export function showHomeScreen() {
 }
 
 function showScreen(screenId) {
-  document.getElementById(screenId).classList.remove("hidden");
+  getDomElement(screenId).classList.remove("hidden");
 }
 
 function hideScreen(screenId) {
-  document.getElementById(screenId).classList.add("hidden");
+  getDomElement(screenId).classList.add("hidden");
 }

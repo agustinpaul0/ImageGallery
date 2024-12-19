@@ -1,39 +1,44 @@
 import { handleLocalStorageError } from '../exceptionHandlers/handleLocalStorageError.js';
 import {
   getImageDescriptionParagraphFromLocalStorage,
-  getImageElementFromLocalStorage,
+  createImageElementFromImageAttributes,
   getSavedImageDescriptionParagraphsFromLocalStorage,
-  getSavedImagesFromLocalStorage,
+  getSavedImageAttributesFromLocalStorage,
 } from '../utils/localStorageUtilities.js';
 import {
   resetGrid,
   appendElementToFragmentDocument,
-  extractImgDescriptionParagraphAttributes,
-  currentlyDisplayedImage
+  extractImageDescriptionParagraphAttributes,
+  currentlyDisplayedImage,
+  getDomElement,
+  appendElementToGrid
 } from '../utils/domUtilities.js';
 
 export function loadElementsFromLocalStorage() {
-  const imageGrid = document.getElementById("image-grid");
+  const imageGrid = getDomElement("image-grid");
+
   resetGrid(imageGrid);
-  loadImages(imageGrid);
+  loadImagesFromLocalStorage(imageGrid);
 }
 
-function loadImages(grid) {
-  const savedImages = getSavedImagesFromLocalStorage();
+function loadImagesFromLocalStorage(grid) {
+  const savedImageAttributes = getSavedImageAttributesFromLocalStorage();
   const documentFragment = document.createDocumentFragment();
-  savedImages.forEach(imgAttr => {
-    const imgElement = getImageElementFromLocalStorage(imgAttr);
+
+  savedImageAttributes.forEach((imageAttributes) => {
+    const imgElement = createImageElementFromImageAttributes(imageAttributes);
     appendElementToFragmentDocument(documentFragment, imgElement);
   });
-  grid.appendChild(documentFragment);
+
+  appendElementToGrid(grid, documentFragment);
 }
 
-export function saveImageToLocalStorage(imageAttributes) {
+export function saveImageAttributesToLocalStorage(imageAttributes) {
   try {
-    const savedImages = getSavedImagesFromLocalStorage();
-    savedImages.push(imageAttributes);
-    console.log(imageAttributes);
-    localStorage.setItem("uploadedImages", JSON.stringify(savedImages));
+    const savedImageAttributes = getSavedImageAttributesFromLocalStorage();
+
+    savedImageAttributes.push(imageAttributes);
+    localStorage.setItem("uploadedImages", JSON.stringify(savedImageAttributes));
     return true;
   } catch (error) {
     handleLocalStorageError(error);
@@ -41,27 +46,31 @@ export function saveImageToLocalStorage(imageAttributes) {
   }
 }
 
-export function deleteImageFromLocalStorage(imageId) {
-  const savedImages = getSavedImagesFromLocalStorage().filter(
-    (imgAttr) => imgAttr.id !== imageId
+export function deleteImageAttributesFromLocalStorage(imageId) {
+  const savedImageAttributes = getSavedImageAttributesFromLocalStorage().filter(
+    (imageAttributes) => imageAttributes.id !== imageId
   );
-  localStorage.setItem("uploadedImages", JSON.stringify(savedImages));
+
+  localStorage.setItem("uploadedImages", JSON.stringify(savedImageAttributes));
 }
 
 export function loadImageDescriptionParagraphsFromLocalStorage(grid) {
   const savedImageDescriptionParagraphs = getSavedImageDescriptionParagraphsFromLocalStorage();
   const documentFragment = document.createDocumentFragment();
-  savedImageDescriptionParagraphs.forEach((imgAttr) => {
-    const imageDescriptionParagraph = getImageDescriptionParagraphFromLocalStorage(imgAttr.id);
+
+  savedImageDescriptionParagraphs.forEach((imageAttributes) => {
+    const imageDescriptionParagraph = getImageDescriptionParagraphFromLocalStorage(imageAttributes.id);
     appendElementToFragmentDocument(documentFragment, imageDescriptionParagraph);
   });
-  grid.appendChild(documentFragment);
+
+  appendElementToGrid(grid, documentFragment);
 }
 
-export function saveImageDescriptionParagraphToLocalStorage(imgDescriptionParagraphAttr) {
+export function saveImageDescriptionParagraphToLocalStorage(imageDescriptionParagraphAttributes) {
   try {
     const savedImageDescriptionParagraphs = getSavedImageDescriptionParagraphsFromLocalStorage();
-    savedImageDescriptionParagraphs.push(imgDescriptionParagraphAttr);
+
+    savedImageDescriptionParagraphs.push(imageDescriptionParagraphAttributes);
     localStorage.setItem("imageDescriptionParagraphs", JSON.stringify(savedImageDescriptionParagraphs));
     return true;
   } catch (error) {
@@ -72,35 +81,31 @@ export function saveImageDescriptionParagraphToLocalStorage(imgDescriptionParagr
 
 export function deleteImageDescriptionParagraphFromLocalStorage(imageDescriptionParagraphAttributes) {
   const imageDescriptionParagraphAttributesArray = imageDescriptionParagraphAttributes.id.split("-");
+
   const imageDescriptionParagraphAttributesId = 
     imageDescriptionParagraphAttributesArray[imageDescriptionParagraphAttributesArray.length - 1];
+
   const savedImageDescriptionParagraphs = getSavedImageDescriptionParagraphsFromLocalStorage().filter(
-    currentImgDescriptionParagraphAttr => {
-      let currentIdArray = currentImgDescriptionParagraphAttr.id.split("-");
-      let currentDescriptionParagraphId = currentIdArray[currentIdArray.length - 1]; 
+    (currentImageDescriptionParagraphAttributes) => {
+      const currentIdArray = currentImageDescriptionParagraphAttributes.id.split("-");
+      const currentDescriptionParagraphId = currentIdArray[currentIdArray.length - 1]; 
+
       return currentDescriptionParagraphId != imageDescriptionParagraphAttributesId;
     }
   );
+
   localStorage.setItem("imageDescriptionParagraphs", JSON.stringify(savedImageDescriptionParagraphs));
 }
 
-export function saveCurrentDescription() {
+export function updateCurrentDescriptionParagraph() {
   if (currentlyDisplayedImage != null) {
-    const imageId = currentlyDisplayedImage.id.split('-');
-    const imageIdNumber = imageId[imageId.length - 1];
-    const currentDescriptionParagraph = document.getElementById(`description-image-${imageIdNumber}`);
+    const imageIdArray = currentlyDisplayedImage.id.split('-');
+    const imageIdNumber = imageIdArray[imageIdArray.length - 1];
+    const currentDescriptionParagraph = getDomElement(`description-image-${imageIdNumber}`);
+    const imageDescriptionParagraphAttributes = 
+      extractImageDescriptionParagraphAttributes(currentDescriptionParagraph);
 
-    const imgDescriptionParagraphAttributes = extractImgDescriptionParagraphAttributes(currentDescriptionParagraph);
-    deleteImageDescriptionParagraphFromLocalStorage(imgDescriptionParagraphAttributes);
-    saveImageDescriptionParagraphToLocalStorage(imgDescriptionParagraphAttributes);
-  }
-}
-
-export function deleteCurrentDescription() {
-  if (currentlyDisplayedImage != null) {
-    const imageId = currentlyDisplayedImage.id.split('-');
-    const imageIdNumber = imageId[imageId.length - 1];
-    const currentDescriptionParagraph = document.getElementById(`description-image-${imageIdNumber}`);
-    currentDescriptionParagraph.remove();
+    deleteImageDescriptionParagraphFromLocalStorage(imageDescriptionParagraphAttributes);
+    saveImageDescriptionParagraphToLocalStorage(imageDescriptionParagraphAttributes);
   }
 }

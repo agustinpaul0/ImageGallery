@@ -1,38 +1,40 @@
+import { updateCurrentDescriptionParagraph } from '../storage/storageManager.js';
 import { 
-  saveCurrentDescription,
-  deleteCurrentDescription 
-} from "../storage/storageManager.js";
-import { 
-  getSavedImagesFromLocalStorage,
+  getSavedImageAttributesFromLocalStorage,
   getImageDescriptionParagraphFromLocalStorage 
-} from "../utils/localStorageUtilities.js";
+} from '../utils/localStorageUtilities.js';
 import {
   currentlyDisplayedImage,
   updateCurrentlyDisplayedImage,
-  updateCurrentlyDisplayedDescriptionParagraph
-} from "../utils/domUtilities.js";
+  updateCurrentlyDisplayedDescriptionParagraph,
+  deleteCurrentDescriptionParagraphFromDOM
+} from '../utils/domUtilities.js';
 
 export function showNextImage() {
   if (currentlyDisplayedImage != null) {
-    const savedImages = getSavedImagesFromLocalStorage();
-    const currentIndex = savedImages.findIndex(
+    const savedImageAttributes = getSavedImageAttributesFromLocalStorage();
+
+    const currentIndex = savedImageAttributes.findIndex(
         (imageAttr) => imageAttr.id === currentlyDisplayedImage.id
     );
-    const nextIndex = getNextIndex(currentIndex, savedImages.length);
+
+    const nextIndex = getNextIndex(currentIndex, savedImageAttributes.length);
     
-    displayImageByIndex(savedImages, nextIndex);
+    displayImageByIndex(savedImageAttributes, nextIndex);
   }
 }
 
 export function showPrevImage() {
   if (currentlyDisplayedImage != null) {
-    const savedImages = getSavedImagesFromLocalStorage();
-    const currentIndex = savedImages.findIndex(
+    const savedImageAttributes = getSavedImageAttributesFromLocalStorage();
+
+    const currentIndex = savedImageAttributes.findIndex(
         (imageAttr) => imageAttr.id === currentlyDisplayedImage.id
     );
-    const prevIndex = getPrevIndex(currentIndex, savedImages.length);
+
+    const prevIndex = getPrevIndex(currentIndex, savedImageAttributes.length);
     
-    displayImageByIndex(savedImages, prevIndex);
+    displayImageByIndex(savedImageAttributes, prevIndex);
   }
 }
 
@@ -48,8 +50,9 @@ function displayImageByIndex(savedImages, index) {
   const imageToShow = savedImages[index];
   const currentDescriptionParagraph = getImageDescriptionParagraphFromLocalStorage(imageToShow.id);
 
-  saveCurrentDescription();
-  deleteCurrentDescription();
+  updateCurrentDescriptionParagraph();
+  deleteCurrentDescriptionParagraphFromDOM();
+  
   updateCurrentlyDisplayedImage(imageToShow);
   updateCurrentlyDisplayedDescriptionParagraph(currentDescriptionParagraph);
 }
