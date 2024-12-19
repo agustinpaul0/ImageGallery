@@ -1,0 +1,37 @@
+#loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8); 
+  color: white;
+  font-size: 20px; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  padding: 20px 30px;
+  border-radius: 10px;
+  gap: 15px; 
+}
+
+#loading-spinner.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: 
+    radial-gradient(farthest-side, #28a745 94%, #0000) top/8px 8px no-repeat, 
+    conic-gradient(#0000 30%, #28a745); 
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0); 
+  animation: l13 1s infinite linear;
+}
+
+@keyframes l13 {
+  100% {
+    transform: rotate(1turn);
+  }
+}

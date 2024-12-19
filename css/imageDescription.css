@@ -1,0 +1,41 @@
+#image-description-paragraphs {
+  width: 100%;
+  padding: 10px; /* Agrega un pequeño padding para que no toque los bordes */
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  overflow-y: auto; /* Agrega scroll si los textareas exceden el espacio disponible */
+  display: flex;
+  flex-direction: column; /* Apilará los textareas verticalmente */
+}
+
+/* Estilo para los textareas */
+textarea {
+  width: 100%;
+  height: 150px; /* Tamaño inicial */
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px; /* Reduce el margen para que se ajusten mejor */
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* Evita que el usuario cambie el tamaño */
+  overflow-y: auto; /* Agrega scroll si es necesario */
+}
+
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 2px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+  text-align: left;
+  transform: translateY(-50%);
+  position: relative;
+  top: 5px;
+}
+
+#image-description-paragraphs.hidden {
+  display: none;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An interactive image gallery application."
+    />
+    <meta name="keywords" content="image gallery, HTML, CSS, JavaScript" />
+    <title>Image Gallery</title>
+    <link rel="icon" href="images/icon/icono.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <!-- Home Screen -->
+    <div id="home-screen">
+      <div id="container" class="container">
+        <h1>¡Welcome!</h1>
+        <button id="open-gallery-btn">
+          Open Gallery
+        </button>
+        <label for="file-input" class="btn-upload">
+          Upload File
+        </label>
+        <input
+          type="file"
+          id="file-input"
+          accept="image/*"
+          multiple
+          class="hidden"
+        />
+      </div>
+      <div id="loading-spinner" class="hidden">
+        <div class="spinner"></div>
+        Cargando imágenes...
+      </div>
+    </div>
+
+    <!-- Gallery Screen -->
+    <div id="gallery-screen" class="hidden">
+      <div id="left-panel">
+        <div id="image-grid" aria-label="Image gallery"></div>
+      </div>
+      <div id="right-panel">
+        <div id="image-viewer" aria-label="Image viewer">
+          <h2 id="no-images-selected-msg" class="no-img-selected-msg">
+            No images selected
+          </h2>
+          <img id="current-image" class="hidden" alt="Selected image" src="" />
+          <div id="image-description-paragraphs" class="hidden"></div>
+          <div id="image-viewer-buttons">
+            <button id="prev-btn" aria-label="Previous image" disabled>
+              <
+            </button>
+            <button id="next-btn" aria-label="Next image" disabled>
+              >
+            </button>
+            <button id="back-to-home-btn">
+              Back to Home
+            </button>
+            <button id="delete-image-btn" disabled>
+              Delete Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
