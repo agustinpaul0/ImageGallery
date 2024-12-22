@@ -1,9 +1,9 @@
 import { resizeImage } from '../utils/utilityFunctions.js';
-import { 
+import {
   saveImageAttributesToLocalStorage,
   saveImageDescriptionParagraphToLocalStorage
 } from '../storage/storageManager.js';
-import { 
+import {
   createDescriptionParagraph,
   createImageElement,
   extractAttributes,
@@ -13,16 +13,18 @@ import {
   getDomElement
 } from '../utils/domUtilities.js';
 
-export function handleFileUpload(event) {
+export async function handleFileUpload(event) {
   const spinner = getDomElement("loading-spinner");
   const spinnerContainer = getDomElement("container");
   spinnerContainer.classList.add("imagesOnLoad");
 
-  showElement(spinner); 
+  showElement(spinner);
+
+  console.log("spinner antes del try:");
+  console.log(spinner.classList);
 
   const files = event.target.files;
   const totalFiles = files.length;
-  let processedFiles = 0;  
 
   if (totalFiles === 0) {
     spinnerContainer.classList.remove("imagesOnLoad");
@@ -30,27 +32,26 @@ export function handleFileUpload(event) {
     return;
   }
 
-  processFiles(Array.from(files), () => {
-    processedFiles++;
-
-    if (processedFiles === totalFiles) {
-      spinnerContainer.classList.remove("imagesOnLoad");
-      hideElement(spinner);
-    }
-  });
-
-  resetFileInput(event);
+  try {
+    await processFiles(Array.from(files));
+  } catch (error) {
+    console.error("Error procesando los archivos:", error);
+  } finally {
+    spinnerContainer.classList.remove("imagesOnLoad");
+    hideElement(spinner);
+    resetFileInput(event);
+  }
 }
 
-//onFileProcessed is a callback function
-function processFiles(files, onFileProcessed) {
-  files.forEach((file) => {
-    handleFile(file, onFileProcessed);
-  });
+async function processFiles(files) {
+  for (const file of files) {
+    await handleFile(file);
+    //This is crucial as it allows the navigator to render the DOM 
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
 }
 
-//onFileProcessed is a callback function
-function handleFile(file, onFileProcessed) {
+async function handleFile(file, onFileProcessed) {
   resizeImage(file, 800, 600, 0.7, (resizedDataUrl) => {
     const imageElement = createImageElement(resizedDataUrl);
     const imageAttributes = extractAttributes(imageElement);
@@ -59,8 +60,6 @@ function handleFile(file, onFileProcessed) {
 
     saveImageAttributesToLocalStorage(imageAttributes);
     saveImageDescriptionParagraphToLocalStorage(imageDescriptionParagraphAttributes);
-
-    onFileProcessed();
   });
 }
 
