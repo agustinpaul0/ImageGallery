@@ -20,9 +20,6 @@ export async function handleFileUpload(event) {
 
   showElement(spinner);
 
-  console.log("spinner antes del try:");
-  console.log(spinner.classList);
-
   const files = event.target.files;
   const totalFiles = files.length;
 
@@ -35,7 +32,7 @@ export async function handleFileUpload(event) {
   try {
     await processFiles(Array.from(files));
   } catch (error) {
-    console.error("Error procesando los archivos:", error);
+    console.error("Error processing the files: ", error);
   } finally {
     spinnerContainer.classList.remove("imagesOnLoad");
     hideElement(spinner);
