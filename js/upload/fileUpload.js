@@ -48,7 +48,7 @@ async function processFiles(files) {
   }
 }
 
-async function handleFile(file, onFileProcessed) {
+async function handleFile(file) {
   resizeImage(file, 800, 600, 0.7, (resizedDataUrl) => {
     const imageElement = createImageElement(resizedDataUrl);
     const imageAttributes = extractAttributes(imageElement);
